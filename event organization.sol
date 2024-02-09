@@ -15,7 +15,7 @@ contract EventContract{
     mapping(address=>mapping(uint=>uint)) public tickets;
     uint public nextId;
 
-    function createEvent(string memory name,uint date, uint price,uint ticketCount) external{
+    function createEvent(string memory name,uint date, uint price,uint ticketCount) external{ // date should be in unix epoch code standard
         require(date>block.timestamp,"You can organize event for a future date");
         require(ticketCount>0,"You can organize an event only you create more than 10 tickets");
 
@@ -24,7 +24,7 @@ contract EventContract{
     }
 
     function buyTicket(uint id, uint quantity) external payable{
-        require(events[id].date!=0,"Event does not exist");
+        require(events[id].date!=0,"Event does not exist"); //if no event is created yet
         require(events[id].date>block.timestamp,"Event has already occurred");
 
         Event storage _event = events[id];
@@ -46,6 +46,7 @@ contract EventContract{
         tickets[msg.sender][id] -= quantity;
         tickets[to][id] += quantity;
     }
+}
 
     
 
@@ -54,7 +55,4 @@ contract EventContract{
 
 
 
-
-
-}
 
